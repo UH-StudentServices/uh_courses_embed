@@ -12,6 +12,17 @@ for looking for given organisation's courses.
 Note: Organisation code field supports only cardinality 1. If you use many values, only the first value
 is being used. If you want to enter multiple organisations, type them separated by commas.
 
+## Running on Docker container
+1. Download module and run it on a `drupal:7` container
+```
+$ wget https://github.com/mikaelkundert/uh_courses_embed/archive/master.zip
+$ unzip master.zip -d uh_courses_embed
+$ cd uh_courses_embed
+$ docker run -d -v `pwd`:/var/www/html/sites/all/modules/uh_courses_embed drupal:7
+```
+2. Go to your container's IP address and install Drupal
+3. Follow "Getting started" steps 2-5
+
 ## Updating NPM package
 Course browser app is injected to this module as an external NPM dependency.
 **Required JS and CSS are already copied in this module**, but sometimes you want to try out
