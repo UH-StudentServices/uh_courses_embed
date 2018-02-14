@@ -21,7 +21,8 @@ $ cd uh_courses_embed
 $ docker run -d -v `pwd`:/var/www/html/sites/all/modules/uh_courses_embed drupal:7
 ```
 2. Go to your container's IP address and install Drupal
-3. Follow "Getting started" steps 2-5
+3. Enable "University of Helsinki Courses Embed" module
+4. Follow "Getting started" steps 2-5
 
 ## Updating NPM package
 Course browser app is injected to this module as an external NPM dependency.
