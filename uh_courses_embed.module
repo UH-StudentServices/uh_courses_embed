@@ -1,0 +1,37 @@
+<?php
+/**
+ * @file
+ * Code for the University of Helsinki Courses Embed JS module.
+ *
+ * @license GPL, or GNU General Public License, version 3
+ * @license http://opensource.org/licenses/GPL-3.0
+ * @see README.md how to contribute to this project
+ */
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function uh_courses_embed_field_formatter_info() {
+  return array(
+    'text_uh_courses_embed' => array(
+      'label' => t('Courses Embed'),
+      'field types' => array(
+        'text'
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function uh_courses_embed_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  if ($display['type'] == 'text_uh_courses_embed') {
+    drupal_add_css('/' . drupal_get_path('module', 'uh_courses_embed') . '/css/app.css', array('type' => 'external'));
+    drupal_add_js('/' . drupal_get_path('module', 'uh_courses_embed') . '/js/app.js', array('type' => 'external', 'scope' => 'footer'));
+    $delta = 0;
+    $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . check_plain($items[$delta]['value']) . '"></div>';
+  }
+  return $element;
+}
