@@ -2,6 +2,8 @@
 This Drupal module allows to create content pages that builds an interface
 for looking for given organisation's courses.
 
+This module uses NPM package "[courses-app](https://www.npmjs.com/package/courses-app)" to generate distributable JS that embeds courses into the content page.
+
 ## Getting started
 1. Install module (see how to [install modules](https://www.drupal.org/docs/7/extend/installing-modules))
 2. Create content *"Content" > "Add content" > "Courses Embed"*
