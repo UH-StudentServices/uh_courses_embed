@@ -41,6 +41,14 @@ $ # and will copy required JS/CSS files to your module.
 $ npm install courses-app@^YOUR-VERSION
 ```
 
+## NOTE!
+Latest version (1.0.1) of the dependent library uses build
+options that are not compatible to import to this module.
+
+Pull their library and change their `libraryTarget: 'commonjs2'`
+to `libraryTarget: 'var'` and then build the app. After that copy
+js/css files from its' dist directory. to this module.
+
 # Questions
 
 Please post your question to doo-projekti@helsinki.fi
