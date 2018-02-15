@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy-dist": "cp node_modules/courses-app/dist/app.js js/app.js && cp node_modules/courses-app/dist/app.css css/app.css"
+    "postinstall": "cp node_modules/courses-app/dist/app.js js/app.js && cp node_modules/courses-app/dist/app.css css/app.css"
   },
   "author": "Mikael Kundert",
   "license": "GPL-3.0",

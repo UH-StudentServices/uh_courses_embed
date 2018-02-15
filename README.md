@@ -36,13 +36,10 @@ script that allows you to copy required files to this module (after `npm install
 
 When you want to update the package:
 ```
-$ # This will install all dependencies and build the app
+$ # This will install all dependencies and build the app,
+$ # and will copy required JS/CSS files to your module.
 $ npm install courses-app@^YOUR-VERSION
 ```
-```
-$ # This will copy distributable JS/CSS that's used by this module 
-$ npm run copy-dist
-``` 
 
 # Questions
 
