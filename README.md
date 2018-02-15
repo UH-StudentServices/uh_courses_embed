@@ -17,7 +17,7 @@ is being used. If you want to enter multiple organisations, type them separated 
 ## Running on Docker container
 1. Download module and run it on a `drupal:7` container
 ```
-$ wget https://github.com/mikaelkundert/uh_courses_embed/archive/master.zip
+$ wget https://github.com/UH-StudentServices/uh_courses_embed/archive/master.zip
 $ unzip master.zip -d uh_courses_embed
 $ cd uh_courses_embed
 $ docker run -d -v `pwd`:/var/www/html/sites/all/modules/uh_courses_embed drupal:7
