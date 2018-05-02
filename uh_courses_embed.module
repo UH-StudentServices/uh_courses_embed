@@ -15,11 +15,47 @@ function uh_courses_embed_field_formatter_info() {
   return array(
     'text_uh_courses_embed' => array(
       'label' => t('Courses Embed'),
+      'settings' => array(
+        'language_attribute' => 'current',
+      ),
       'field types' => array(
         'text'
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function uh_courses_embed_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = array();
+  if ($display['type'] == 'text_uh_courses_embed') {
+    $element['language_attribute'] = array(
+      '#title' => t('Language attribute'),
+      '#type' => 'select',
+      '#options' => _uh_courses_embed_labels(),
+      '#default_value' => $settings['language_attribute'],
+      '#description' => t('Select where language attribute value is going to be passed from.'),
+      '#required' => TRUE,
+    );
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function uh_courses_embed_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = '';
+  if ($display['type'] == 'text_uh_courses_embed') {
+    $summary = '<strong>' . t('Language attribute') . ': </strong>' . _uh_courses_embed_label($settings['language_attribute']);
+  }
+  return $summary;
 }
 
 /**
@@ -34,4 +70,33 @@ function uh_courses_embed_field_formatter_view($entity_type, $entity, $field, $i
     $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . check_plain($items[$delta]['value']) . '"></div>';
   }
   return $element;
+}
+
+/**
+ * @return array
+ *   Returns predefined set of labels for language attribute setting. All values
+ *   are translated values.
+ */
+function _uh_courses_embed_labels() {
+  return array(
+    'current' => t('Current language'),
+    'default' => t('Default site language'),
+    'field' => t('Field language'),
+    'entity' => t('Entity language'),
+  );
+}
+
+/**
+ * @param $value
+ *   Value from predefined list of labels.
+ *
+ * @return string
+ *   Label of given value. If value is not found, then 'current' value is used.
+ */
+function _uh_courses_embed_label($value = 'current') {
+  $values = _uh_courses_embed_labels();
+  if (!empty($values[$value])) {
+    return $values[$value];
+  }
+  return $values['current'];
 }
