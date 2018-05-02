@@ -67,9 +67,48 @@ function uh_courses_embed_field_formatter_view($entity_type, $entity, $field, $i
     drupal_add_css('/' . drupal_get_path('module', 'uh_courses_embed') . '/css/app.css', array('type' => 'external'));
     drupal_add_js('/' . drupal_get_path('module', 'uh_courses_embed') . '/js/app.js', array('type' => 'external', 'scope' => 'footer'));
     $delta = 0;
-    $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . check_plain($items[$delta]['value']) . '"></div>';
+    $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . check_plain($items[$delta]['value']) . '" data-language="' . _uh_courses_embed_language_attribute($entity_type, $entity, $langcode, $display) . '"></div>';
   }
   return $element;
+}
+
+/**
+ * Helper function for determining what value to pass as language attribute.
+ *
+ * @param $entity_type
+ * @param $entity
+ * @param $langcode
+ * @param $display
+ *
+ * @return string
+ *   Language code (ISO 639-1 standard).
+ */
+function _uh_courses_embed_language_attribute($entity_type, $entity, $langcode, $display) {
+  global $language;
+
+  // Specify value based on formatter settings.
+  $value = NULL;
+  switch ($display['settings']['language_attribute']) {
+    case 'current':
+      $value = $language->language;
+      break;
+    case 'default':
+      $value = language_default('language');
+      break;
+    case 'field':
+      $value = $langcode;
+      break;
+    case 'entity':
+      $value = entity_language($entity_type, $entity);
+      break;
+  }
+
+  // Ensure that we allow only installed languages which also means that
+  // undefined languages becomes 'current language'.
+  $installed_languages = language_list('language');
+  $value = empty($installed_languages[$value]) ? $language->language : $value;
+
+  return $value;
 }
 
 /**
