@@ -1,2 +1,2 @@
-FROM drupal:7
-ADD ./ /var/www/html/sites/all/modules/uh_courses_embed
+FROM drupal:8
+ADD ./ /var/www/html/modules/uh_courses_embed

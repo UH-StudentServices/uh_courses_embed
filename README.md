@@ -15,12 +15,12 @@ Note: Organisation code field supports only cardinality 1. If you use many value
 is being used. If you want to enter multiple organisations, type them separated by commas.
 
 ## Running on Docker container
-1. Download module and run it on a `drupal:7` container
+1. Download module and run it on a `drupal:8` container
 ```
-$ wget https://github.com/UH-StudentServices/uh_courses_embed/archive/master.zip
-$ unzip master.zip -d uh_courses_embed
+$ wget https://github.com/UH-StudentServices/uh_courses_embed/archive/drupal8.zip
+$ unzip drupal8.zip -d uh_courses_embed
 $ cd uh_courses_embed
-$ docker run -d -v `pwd`:/var/www/html/sites/all/modules/uh_courses_embed drupal:7
+$ docker run -d -v `pwd`:/var/www/html/modules/uh_courses_embed drupal:8
 ```
 2. Go to your container's IP address and install Drupal
 3. Enable "University of Helsinki Courses Embed" module
