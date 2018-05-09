@@ -12,15 +12,13 @@
  * Implements hook_uninstall().
  */
 function uh_courses_embed_uninstall() {
-  field_delete_field('courses_embed_organisation_code');
-  $query = db_select('node', 'n')
-            ->fields('n', array('nid'))
-            ->condition('type', 'courses_embed')
-            ->execute();
-  $nids = array();
-  while ($record = $query->fetchObject()) {
-    $nids[] = $record->nid;
+  $fields = entity_load_multiple_by_properties('field_storage_config', ['field_name' => 'field_organisation_code']);
+  foreach ($fields as $field) {
+    $field->delete();
   }
-  node_delete_multiple($nids);
-  node_type_delete('courses_embed');
+
+  $nodes = entity_load_multiple_by_properties('node', ['type' => 'courses_embed']);
+  foreach ($nodes as $node) {
+    $node->delete();
+  }
 }

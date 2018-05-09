@@ -2,6 +2,9 @@ uuid: 10754e65-1c6b-4dad-acb6-934196043601
 langcode: en
 status: true
 dependencies:
+  enforced:
+    module:
+      - uh_courses_embed
   module:
     - menu_ui
 third_party_settings:
