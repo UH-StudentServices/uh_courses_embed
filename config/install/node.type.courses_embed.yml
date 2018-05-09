@@ -1,0 +1,17 @@
+uuid: 10754e65-1c6b-4dad-acb6-934196043601
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'Courses Embed'
+type: courses_embed
+description: 'Use <em>courses embed</em> for pages content for showing given organisations'' courses.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

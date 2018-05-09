@@ -1,0 +1,18 @@
+uuid: cd2b7510-a1b1-4f88-b753-73c796cf4b82
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.courses_embed
+  module:
+    - user
+id: node.courses_embed.teaser
+targetEntityType: node
+bundle: courses_embed
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden: {  }

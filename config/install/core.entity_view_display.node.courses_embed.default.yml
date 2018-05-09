@@ -1,0 +1,26 @@
+uuid: 9e1429a5-72c1-48fd-9965-45d09d47df9e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.courses_embed.field_organisation_code
+    - node.type.courses_embed
+  module:
+    - user
+id: node.courses_embed.default
+targetEntityType: node
+bundle: courses_embed
+mode: default
+content:
+  field_organisation_code:
+    weight: 101
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden: {  }
