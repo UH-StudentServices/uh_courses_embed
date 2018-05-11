@@ -1,8 +1,0 @@
-name = University of Helsinki Courses Embed
-description = Allows privileged users to add content that will embed courses for given organisation code.
-core = 7.x
-package = University of Helsinki
-version = VERSION
-project = uh_courses_embed
-dependencies[] = node
-dependencies[] = text
