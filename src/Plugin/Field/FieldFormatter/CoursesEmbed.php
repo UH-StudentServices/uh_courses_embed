@@ -3,10 +3,13 @@
 namespace Drupal\uh_courses_embed\Plugin\Field\FieldFormatter;
 
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Field\FormatterInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Plugin implementation of the courses embed field formatter.
@@ -20,6 +23,55 @@ use Drupal\Core\Form\FormStateInterface;
  * )
  */
 class CoursesEmbed extends FormatterBase implements FormatterInterface {
+
+  /**
+   * Language manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
+   * Constructs a CoursesEmbed object.
+   *
+   * @param string $plugin_id
+   *   The plugin_id for the formatter.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Field\FieldDefinitionInterface $field_definition
+   *   The definition of the field to which the formatter is associated.
+   * @param array $settings
+   *   The formatter settings.
+   * @param string $label
+   *   The formatter label display setting.
+   * @param string $view_mode
+   *   The view mode.
+   * @param array $third_party_settings
+   *   Any third party settings.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   Language manager containing required information for embedding with
+   *   proper language codes.
+   */
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, LanguageManagerInterface $language_manager) {
+    parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
+    $this->languageManager = $language_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $plugin_id,
+      $plugin_definition,
+      $configuration['field_definition'],
+      $configuration['settings'],
+      $configuration['label'],
+      $configuration['view_mode'],
+      $configuration['third_party_settings'],
+      $container->get('language_manager')
+    );
+  }
 
   /**
    * @inheritdoc
@@ -40,7 +92,7 @@ class CoursesEmbed extends FormatterBase implements FormatterInterface {
       if ($delta > 0) {
         break;
       }
-      $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . $item->value . '"></div>';
+      $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . $item->value . '" data-language="' . $this->languageAttribute($item, $langcode) . '"></div>';
     }
     $element['#attached']['library'] = 'uh_courses_embed/courses_app';
 
@@ -70,6 +122,43 @@ class CoursesEmbed extends FormatterBase implements FormatterInterface {
     $summary = parent::settingsSummary();
     $summary[] = new FormattableMarkup('<strong>@label: </strong>@value', ['@label' => $this->t('Language attribute'), '@value' => $this->languageLabel($this->getSetting('language_attribute'))]);
     return $summary;
+  }
+
+  /**
+   * Returns the language code for the item that will be used as language
+   * attribute value.
+   *
+   * @param $item
+   * @param $langcode
+   *
+   * @return string
+   *   Language code (ISO 639-1 standard).
+   */
+  protected function languageAttribute($item, $langcode) {
+    $value = '';
+    switch ($this->getSetting('language_attribute')) {
+      case 'current':
+        $value = $this->languageManager->getCurrentLanguage()->getId();
+        break;
+      case 'default':
+        $value = $this->languageManager->getDefaultLanguage()->getId();
+        break;
+      case 'field':
+        $value = $langcode;
+        break;
+      case 'entity':
+        // TODO: Need to check what $item contains, so we can pull it up from
+        //       there?
+        $value = 'en';
+        break;
+    }
+
+    // If unsupported language code is used, then fallback to current language.
+    if (is_null($this->languageManager->getLanguage($value))) {
+      return $this->languageManager->getCurrentLanguage()->getId();
+    }
+
+    return $value;
   }
 
   /**
