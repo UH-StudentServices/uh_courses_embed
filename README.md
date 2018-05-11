@@ -2,7 +2,7 @@
 This Drupal module allows to create content pages that builds an interface for
 looking for given organisation's courses.
 
-This module is available for [Drupal 7](/tree/drupal7) and [Drupal 8](/tree/drupal8) versions.
+This module is available for [Drupal 7](https://github.com/UH-StudentServices/uh_courses_embed/tree/drupal7) and [Drupal 8](https://github.com/UH-StudentServices/uh_courses_embed/tree/drupal8) versions.
 
 This module uses NPM package
 "[courses-app](https://www.npmjs.com/package/courses-app)" to generate
