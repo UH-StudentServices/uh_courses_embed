@@ -21,12 +21,18 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class CoursesEmbed extends FormatterBase implements FormatterInterface {
 
+  /**
+   * @inheritdoc
+   */
   public static function defaultSettings() {
     $settings = parent::defaultSettings();
     $settings['language_attribute'] = 'current';
     return $settings;
   }
 
+  /**
+   * @inheritdoc
+   */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $element = [];
     foreach ($items as $delta => $item) {
@@ -41,6 +47,9 @@ class CoursesEmbed extends FormatterBase implements FormatterInterface {
     return $element;
   }
 
+  /**
+   * @inheritdoc
+   */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $form = parent::settingsForm($form, $form_state);
     $form['language_attribute'] = array(
@@ -54,6 +63,9 @@ class CoursesEmbed extends FormatterBase implements FormatterInterface {
     return $form;
   }
 
+  /**
+   * @inheritdoc
+   */
   public function settingsSummary() {
     $summary = parent::settingsSummary();
     $summary[] = new FormattableMarkup('<strong>@label: </strong>@value', ['@label' => $this->t('Language attribute'), '@value' => $this->languageLabel($this->getSetting('language_attribute'))]);
