@@ -14,7 +14,7 @@ mode: default
 content:
   field_organisation_code:
     weight: 101
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
