@@ -18,7 +18,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
+    type: uh_courses_embed
     region: content
   links:
     weight: 100
