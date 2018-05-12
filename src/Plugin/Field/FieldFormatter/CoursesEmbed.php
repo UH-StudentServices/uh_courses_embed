@@ -143,13 +143,8 @@ class CoursesEmbed extends FormatterBase implements ContainerFactoryPluginInterf
       case 'default':
         $value = $this->languageManager->getDefaultLanguage()->getId();
         break;
-      case 'field':
-        $value = $langcode;
-        break;
       case 'entity':
-        // TODO: Need to check what $item contains, so we can pull it up from
-        //       there?
-        $value = 'en';
+        $value = $langcode;
         break;
     }
 
@@ -169,7 +164,6 @@ class CoursesEmbed extends FormatterBase implements ContainerFactoryPluginInterf
     return [
       'current' => $this->t('Current language'),
       'default' => $this->t('Default site language'),
-      'field' => $this->t('Field language'),
       'entity' => $this->t('Entity language'),
     ];
   }
