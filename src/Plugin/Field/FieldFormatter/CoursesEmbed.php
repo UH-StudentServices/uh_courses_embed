@@ -6,9 +6,9 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
-use Drupal\Core\Field\FormatterInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   }
  * )
  */
-class CoursesEmbed extends FormatterBase implements FormatterInterface {
+class CoursesEmbed extends FormatterBase implements ContainerFactoryPluginInterface {
 
   /**
    * Language manager service.
