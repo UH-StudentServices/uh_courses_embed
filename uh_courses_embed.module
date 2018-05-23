@@ -64,8 +64,7 @@ function uh_courses_embed_field_formatter_settings_summary($field, $instance, $v
 function uh_courses_embed_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   if ($display['type'] == 'text_uh_courses_embed') {
-    drupal_add_css('/' . drupal_get_path('module', 'uh_courses_embed') . '/css/app.css', array('type' => 'external'));
-    drupal_add_js('/' . drupal_get_path('module', 'uh_courses_embed') . '/js/app.js', array('type' => 'external', 'scope' => 'footer'));
+    drupal_add_js('https://studies.helsinki.fi/app.var.js', array('type' => 'external', 'scope' => 'footer'));
     $delta = 0;
     $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . check_plain($items[$delta]['value']) . '" data-language="' . _uh_courses_embed_language_attribute($entity_type, $entity, $langcode, $display) . '"></div>';
   }
