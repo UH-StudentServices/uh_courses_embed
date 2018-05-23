@@ -4,8 +4,8 @@ for looking for given organisation's courses.
 
 ## Running on Docker container
 ```
-$ wget https://github.com/UH-StudentServices/uh_courses_embed/archive/master.zip
-$ unzip master.zip -d uh_courses_embed
+$ wget https://github.com/UH-StudentServices/uh_courses_embed/archive/drupal7.zip
+$ unzip drupal7.zip -d uh_courses_embed
 $ cd uh_courses_embed
 $ docker run -d -v `pwd`:/var/www/html/sites/all/modules/uh_courses_embed drupal:7
 ```
