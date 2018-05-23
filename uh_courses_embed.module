@@ -15,6 +15,9 @@ function uh_courses_embed_field_formatter_info() {
   return array(
     'text_uh_courses_embed' => array(
       'label' => t('Courses Embed'),
+      'settings' => array(
+        'language_attribute' => 'current',
+      ),
       'field types' => array(
         'text'
       ),
@@ -23,15 +26,115 @@ function uh_courses_embed_field_formatter_info() {
 }
 
 /**
+ * Implements hook_field_formatter_settings_form().
+ */
+function uh_courses_embed_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = array();
+  if ($display['type'] == 'text_uh_courses_embed') {
+    $element['language_attribute'] = array(
+      '#title' => t('Language attribute'),
+      '#type' => 'select',
+      '#options' => _uh_courses_embed_labels(),
+      '#default_value' => $settings['language_attribute'],
+      '#description' => t('Select where language attribute value is going to be passed from.'),
+      '#required' => TRUE,
+    );
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function uh_courses_embed_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = '';
+  if ($display['type'] == 'text_uh_courses_embed') {
+    $summary = '<strong>' . t('Language attribute') . ': </strong>' . _uh_courses_embed_label($settings['language_attribute']);
+  }
+  return $summary;
+}
+
+/**
  * Implements hook_field_formatter_view().
  */
 function uh_courses_embed_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   if ($display['type'] == 'text_uh_courses_embed') {
-    drupal_add_css('/' . drupal_get_path('module', 'uh_courses_embed') . '/css/app.css', array('type' => 'external'));
-    drupal_add_js('/' . drupal_get_path('module', 'uh_courses_embed') . '/js/app.js', array('type' => 'external', 'scope' => 'footer'));
+    drupal_add_js('https://studies.helsinki.fi/app.var.js', array('type' => 'external', 'scope' => 'footer'));
     $delta = 0;
-    $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . check_plain($items[$delta]['value']) . '"></div>';
+    $element[$delta]['#markup'] = '<div id="course-app-root" data-organization="' . check_plain($items[$delta]['value']) . '" data-language="' . _uh_courses_embed_language_attribute($entity_type, $entity, $langcode, $display) . '"></div>';
   }
   return $element;
+}
+
+/**
+ * Helper function for determining what value to pass as language attribute.
+ *
+ * @param $entity_type
+ * @param $entity
+ * @param $langcode
+ * @param $display
+ *
+ * @return string
+ *   Language code (ISO 639-1 standard).
+ */
+function _uh_courses_embed_language_attribute($entity_type, $entity, $langcode, $display) {
+  global $language;
+
+  // Specify value based on formatter settings.
+  $value = NULL;
+  switch ($display['settings']['language_attribute']) {
+    case 'current':
+      $value = $language->language;
+      break;
+    case 'default':
+      $value = language_default('language');
+      break;
+    case 'field':
+      $value = $langcode;
+      break;
+    case 'entity':
+      $value = entity_language($entity_type, $entity);
+      break;
+  }
+
+  // Ensure that we allow only installed languages which also means that
+  // undefined languages becomes 'current language'.
+  $installed_languages = language_list('language');
+  $value = empty($installed_languages[$value]) ? $language->language : $value;
+
+  return $value;
+}
+
+/**
+ * @return array
+ *   Returns predefined set of labels for language attribute setting. All values
+ *   are translated values.
+ */
+function _uh_courses_embed_labels() {
+  return array(
+    'current' => t('Current language'),
+    'default' => t('Default site language'),
+    'field' => t('Field language'),
+    'entity' => t('Entity language'),
+  );
+}
+
+/**
+ * @param $value
+ *   Value from predefined list of labels.
+ *
+ * @return string
+ *   Label of given value. If value is not found, then 'current' value is used.
+ */
+function _uh_courses_embed_label($value = 'current') {
+  $values = _uh_courses_embed_labels();
+  if (!empty($values[$value])) {
+    return $values[$value];
+  }
+  return $values['current'];
 }
