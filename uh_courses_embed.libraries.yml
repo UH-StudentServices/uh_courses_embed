@@ -1,6 +1,3 @@
 courses_app:
   js:
-    js/app.js: {}
-  css:
-    theme:
-      css/app.css: {}
+    https://studies.helsinki.fi/app.var.js: {type: external, minified: true}
