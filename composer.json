@@ -1,0 +1,7 @@
+{
+  "name": "UH-StudentServices/uh_courses_embed",
+  "type": "drupal-module",
+  "description": "Allows privileged users to add content that will embed courses for given organisation code.",
+  "license": "GPL-3.0+",
+  "minimum-stability": "dev"
+}
