@@ -3,21 +3,25 @@
  * @file
  * Code for the University of Helsinki Courses Embed JS installation file.
  *
- * @license GPL, or GNU General Public License, version 3
- * @license http://opensource.org/licenses/GPL-3.0
  * @see README.md how to contribute to this project
+ * @license http://opensource.org/licenses/GPL-3.0
+ * @license GPL, or GNU General Public License, version 3
  */
 
 /**
  * Implements hook_uninstall().
  */
 function uh_courses_embed_uninstall() {
-  $fields = entity_load_multiple_by_properties('field_storage_config', ['field_name' => 'field_organisation_code']);
+  $fields = \Drupal::entityTypeManager()
+    ->getStorage('field_storage_config')
+    ->loadByProperties(['field_name' => 'field_organisation_code']);
   foreach ($fields as $field) {
     $field->delete();
   }
 
-  $nodes = entity_load_multiple_by_properties('node', ['type' => 'courses_embed']);
+  $nodes = \Drupal::entityTypeManager()
+    ->getStorage('node')
+    ->loadByProperties(['type' => 'courses_embed']);
   foreach ($nodes as $node) {
     $node->delete();
   }
