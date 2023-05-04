@@ -1,8 +1,7 @@
 name: University of Helsinki Courses Embed
 type: module
 description: Allows privileged users to add content that will embed courses for given organisation code.
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 package: University of Helsinki
 version: VERSION
 project: uh_courses_embed
